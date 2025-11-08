@@ -99,17 +99,36 @@ export default function RiskMap({
 
       map.current.on("click", "neighborhoods-fill", (e) => {
         if (e.features && e.features[0]) {
-          const name = e.features[0].properties?.name;
+          const props = e.features[0].properties || {};
+          const name = props.name as string | undefined;
           if (name && onNeighborhoodClick) {
             onNeighborhoodClick(name);
           }
-          
+
+          // Extract riskData safely. Map libraries sometimes stringify nested objects
+          // when serializing feature properties, so handle both object and string cases.
+          let riskScoreDisplay: string | number = 'N/A';
+          try {
+            const raw = props.riskData as any;
+            let parsed = raw;
+            if (typeof raw === 'string') {
+              parsed = JSON.parse(raw);
+            }
+
+            if (parsed && parsed.riskScore !== undefined && parsed.riskScore !== null) {
+              // Keep numeric values as-is so 0 displays correctly
+              riskScoreDisplay = parsed.riskScore;
+            }
+          } catch (err) {
+            // ignore parse errors and keep 'N/A'
+          }
+
           new maplibregl.Popup()
             .setLngLat(e.lngLat)
             .setHTML(`
               <div class="p-2">
-                <h3 class="font-bold">${e.features[0].properties?.name}</h3>
-                <p class="text-sm">Risk Score: ${e.features[0].properties?.riskData?.riskScore || 'N/A'}</p>
+                <h3 class="font-bold">${name ?? ''}</h3>
+                <p class="text-sm">Risk Score: ${riskScoreDisplay}</p>
               </div>
             `)
             .addTo(map.current!);
