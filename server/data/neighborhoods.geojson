@@ -1,0 +1,119 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-79.39, 43.65],
+          [-79.38, 43.65],
+          [-79.38, 43.66],
+          [-79.39, 43.66],
+          [-79.39, 43.65]
+        ]]
+      },
+      "properties": {
+        "name": "Downtown",
+        "population": 15000,
+        "seniorPercent": 18,
+        "vulnerabilityScore": 75
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-79.38, 43.65],
+          [-79.37, 43.65],
+          [-79.37, 43.66],
+          [-79.38, 43.66],
+          [-79.38, 43.65]
+        ]]
+      },
+      "properties": {
+        "name": "Riverside",
+        "population": 12000,
+        "seniorPercent": 22,
+        "vulnerabilityScore": 68
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-79.40, 43.66],
+          [-79.39, 43.66],
+          [-79.39, 43.67],
+          [-79.40, 43.67],
+          [-79.40, 43.66]
+        ]]
+      },
+      "properties": {
+        "name": "North Hills",
+        "population": 18000,
+        "seniorPercent": 15,
+        "vulnerabilityScore": 55
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-79.37, 43.66],
+          [-79.36, 43.66],
+          [-79.36, 43.67],
+          [-79.37, 43.67],
+          [-79.37, 43.66]
+        ]]
+      },
+      "properties": {
+        "name": "East Side",
+        "population": 20000,
+        "seniorPercent": 12,
+        "vulnerabilityScore": 62
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-79.40, 43.64],
+          [-79.39, 43.64],
+          [-79.39, 43.65],
+          [-79.40, 43.65],
+          [-79.40, 43.64]
+        ]]
+      },
+      "properties": {
+        "name": "Industrial District",
+        "population": 8000,
+        "seniorPercent": 8,
+        "vulnerabilityScore": 80
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-79.38, 43.64],
+          [-79.37, 43.64],
+          [-79.37, 43.65],
+          [-79.38, 43.65],
+          [-79.38, 43.64]
+        ]]
+      },
+      "properties": {
+        "name": "Parkside",
+        "population": 14000,
+        "seniorPercent": 20,
+        "vulnerabilityScore": 50
+      }
+    }
+  ]
+}
