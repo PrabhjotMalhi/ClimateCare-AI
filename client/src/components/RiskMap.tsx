@@ -137,7 +137,22 @@ export default function RiskMap({
 
   useEffect(() => {
     if (map.current && map.current.getSource("neighborhoods")) {
-      (map.current.getSource("neighborhoods") as maplibregl.GeoJSONSource).setData(neighborhoods);
+      // Filter neighborhoods based on zoom level
+      // At lower zoom levels, show fewer neighborhoods to improve performance
+      const filteredNeighborhoods = {
+        ...neighborhoods,
+        features: neighborhoods.features.filter((feature, index) => {
+          // Show all neighborhoods at zoom >= 12
+          if (zoom >= 12) return true;
+          // At lower zoom levels, show every Nth neighborhood based on zoom
+          // This creates a deterministic pattern that changes with zoom
+          if (zoom >= 10) return index % 2 === 0; // Show every other at zoom 10-11
+          if (zoom >= 8) return index % 3 === 0; // Show every 3rd at zoom 8-9
+          return index % 5 === 0; // Show every 5th at zoom < 8
+        })
+      };
+      
+      (map.current.getSource("neighborhoods") as maplibregl.GeoJSONSource).setData(filteredNeighborhoods);
       
       if (map.current.getPaintProperty("neighborhoods-fill", "fill-color")) {
         map.current.setPaintProperty("neighborhoods-fill", "fill-color", [
@@ -152,7 +167,7 @@ export default function RiskMap({
         ]);
       }
     }
-  }, [neighborhoods, colorblindMode]);
+  }, [neighborhoods, colorblindMode, zoom]);
 
   const handleZoomIn = () => {
     map.current?.zoomIn();

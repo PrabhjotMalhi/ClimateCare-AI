@@ -106,8 +106,8 @@ export default function Dashboard() {
 
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
-    const daysSinceToday = Math.floor((date.getTime() - new Date().setHours(0, 0, 0, 0)) / (1000 * 60 * 60 * 24));
-    setDayIndex(Math.max(0, Math.min(6, daysSinceToday)));
+    // Don't recalculate dayIndex here - it's already set by onDayIndexChange
+    // This prevents conflicts when the slider updates both values
   };
 
   const handleNeighborhoodClick = (name: string) => {
@@ -274,7 +274,12 @@ export default function Dashboard() {
               <RiskLegend colorblindMode={colorblindMode} />
             </div>
           </div>
-          <TimeSlider onDateChange={handleDateChange} initialDate={selectedDate} />
+          <TimeSlider 
+            onDateChange={handleDateChange} 
+            onDayIndexChange={setDayIndex}
+            dayIndex={dayIndex}
+            initialDate={selectedDate} 
+          />
         </div>
 
         <div className="w-[450px] border-l overflow-y-auto">

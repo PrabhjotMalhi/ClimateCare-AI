@@ -34,10 +34,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const neighborhoods = await storage.getNeighborhoods();
       
-      const enrichedNeighborhoods: NeighborhoodsGeoJSON = {
-        ...neighborhoods,
-        features: await Promise.all(
-          neighborhoods.features.map(async (feature) => {
+      // Process neighborhoods in parallel batches to avoid blocking
+      const batchSize = 10;
+      const features = neighborhoods.features;
+      const enrichedFeatures = [];
+
+      for (let i = 0; i < features.length; i += batchSize) {
+        const batch = features.slice(i, i + batchSize);
+        const batchResults = await Promise.all(
+          batch.map(async (feature) => {
             try {
               if (feature.geometry.type !== "Polygon") {
                 return { ...feature, properties: { ...feature.properties, riskData: undefined } };
@@ -45,10 +50,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
               const [lon, lat] = getCentroid(feature.geometry.coordinates);
               
-              const weatherData = await fetchWeatherData(lat, lon, 7);
+              // Fetch weather and air quality in parallel
+              const [weatherData, airQuality] = await Promise.all([
+                fetchWeatherData(lat, lon, 7),
+                fetchAirQualityData(lat, lon, 50000, dayIndex)
+              ]);
+              
               const weather = processWeatherForRisk(weatherData, dayIndex);
-              const airQuality = await fetchAirQualityData(lat, lon);
-
+              
               const riskData = calculateCompleteRisk(
                 weather,
                 airQuality,
@@ -70,7 +79,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
               return { ...feature, properties: { ...feature.properties, riskData: undefined } };
             }
           })
-        ),
+        );
+        enrichedFeatures.push(...batchResults);
+      }
+
+      const enrichedNeighborhoods: NeighborhoodsGeoJSON = {
+        ...neighborhoods,
+        features: enrichedFeatures,
       };
 
       res.json(enrichedNeighborhoods);
