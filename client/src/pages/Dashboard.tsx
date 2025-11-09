@@ -12,6 +12,7 @@ import SummaryCard from "@/components/SummaryCard";
 import RiskChart from "@/components/RiskChart";
 import AlertPanel from "@/components/AlertPanel";
 import CommunityForm from "@/components/CommunityForm";
+import CommunityFeed from "@/components/CommunityFeed";
 import RiskScoreModal from "@/components/RiskScoreModal";
 import SettingsPanel from "@/components/SettingsPanel";
 import { AlertTriangle, Thermometer, Wind, Users } from "lucide-react";
@@ -229,7 +230,7 @@ export default function Dashboard() {
         <div className="flex items-center gap-3">
           <MapPin className="h-6 w-6 text-primary" />
           <div>
-            <h1 className="text-2xl font-bold">ClimateCare AI</h1>
+            <h1 className="text-2xl font-bold">ClimateCare</h1>
             <p className="text-sm text-muted-foreground">Real-time Climate Health Monitoring</p>
           </div>
         </div>
@@ -352,8 +353,11 @@ export default function Dashboard() {
               />
             </TabsContent>
 
-            <TabsContent value="community" className="p-4">
-              <CommunityForm onSubmit={(data) => submitCommunityMutation.mutate(data)} />
+            <TabsContent value="community" className="p-4 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <CommunityForm onSubmit={(data) => submitCommunityMutation.mutate(data)} />
+                <CommunityFeed />
+              </div>
             </TabsContent>
           </Tabs>
         </div>

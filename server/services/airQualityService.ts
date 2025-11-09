@@ -190,13 +190,21 @@ function generateSyntheticAirQuality(lat: number, lon: number): AirQualityData {
   
   // Combine all variation factors
   const variation = seasonalFactor * rushHourFactor;
+
+  // Simulate missing data and varying distances based on location
+  const hasPM25 = Math.random() > 0.2; // 80% chance of having PM2.5 data
+  const hasPM10 = Math.random() > 0.3; // 70% chance of having PM10 data
+  const hasNO2 = Math.random() > 0.25; // 75% chance of having NO2 data
+
+  // Calculate synthetic distance (5km to 60km)
+  const syntheticDistance = 5 + (locationSeed * 55);
   
   return {
-    pm25: Math.round(basePM25 * variation * 10) / 10,
-    pm10: Math.round(basePM10 * variation * 10) / 10,
-    no2: Math.round(baseNO2 * variation * 10) / 10,
+    pm25: hasPM25 ? Math.round(basePM25 * variation * 10) / 10 : null,
+    pm10: hasPM10 ? Math.round(basePM10 * variation * 10) / 10 : null,
+    no2: hasNO2 ? Math.round(baseNO2 * variation * 10) / 10 : null,
     station: 'Synthetic Data (APIs unavailable)',
-    distance: null,
+    distance: syntheticDistance,
   };
 }
 
