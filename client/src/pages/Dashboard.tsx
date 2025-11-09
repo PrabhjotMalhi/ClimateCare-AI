@@ -262,7 +262,7 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         <div className="flex-1 flex flex-col p-4 gap-4">
           <div className="flex-1 relative">
             <RiskMap 
@@ -279,11 +279,10 @@ export default function Dashboard() {
             onDateChange={handleDateChange} 
             onDayIndexChange={setDayIndex}
             dayIndex={dayIndex}
-            initialDate={selectedDate} 
           />
         </div>
 
-        <div className="w-[450px] border-l overflow-y-auto">
+  <div className="w-full md:w-[450px] border-t md:border-t-0 md:border-l overflow-y-auto">
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className="w-full grid grid-cols-3">
               <TabsTrigger value="overview" data-testid="tab-overview">Overview</TabsTrigger>

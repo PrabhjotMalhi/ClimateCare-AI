@@ -236,9 +236,9 @@ export default function RiskMap({
 
   return (
     <div className="relative w-full h-full" data-testid="container-risk-map">
-      <div ref={mapContainer} className="w-full h-full rounded-md" />
+      <div ref={mapContainer} className="w-full h-[300px] md:h-full rounded-md" />
       
-      <div className="absolute top-4 right-4 flex flex-col gap-2">
+      <div className="absolute top-4 right-4 flex flex-row md:flex-col gap-2">
         <Button
           size="icon"
           variant="secondary"
