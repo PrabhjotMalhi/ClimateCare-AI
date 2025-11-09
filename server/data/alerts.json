@@ -1,0 +1,50 @@
+[
+  {
+    "type": "cold",
+    "severity": "extreme",
+    "neighborhoods": [
+      "Downtown Core",
+      "Cabbagetown",
+      "Riverdale",
+      "Rosedale",
+      "Forest Hill",
+      "Leslieville",
+      "Financial District",
+      "St. Lawrence",
+      "Port Lands",
+      "Cedarvale",
+      "Fairbank",
+      "Beaches",
+      "Upper Beaches",
+      "Lawrence Park",
+      "Bedford Park"
+    ],
+    "message": "High cold stress detected in 15 neighborhood(s). Cold Stress Index above 60.",
+    "id": "5569f2be-3121-4c09-b877-f3c975277b3d",
+    "timestamp": "2025-11-09T05:48:01.560Z"
+  },
+  {
+    "type": "cold",
+    "severity": "extreme",
+    "neighborhoods": [
+      "Downtown Core",
+      "Cabbagetown",
+      "Riverdale",
+      "Rosedale",
+      "Forest Hill",
+      "Leslieville",
+      "Financial District",
+      "St. Lawrence",
+      "Port Lands",
+      "Cedarvale",
+      "Fairbank",
+      "Beaches",
+      "Upper Beaches",
+      "Lawrence Park",
+      "Bedford Park"
+    ],
+    "message": "High cold stress detected in 15 neighborhood(s). Cold Stress Index above 60.",
+    "id": "5a6318d6-4609-457e-b41e-613add6bb237",
+    "timestamp": "2025-11-09T05:53:24.403Z"
+  }
+]

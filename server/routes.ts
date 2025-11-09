@@ -6,6 +6,7 @@ import { fetchAirQualityData } from "./services/airQualityService";
 import { calculateCompleteRisk, defaultRiskConfig } from "./services/riskEngine";
 import { insertCommunitySubmissionSchema, type NeighborhoodsGeoJSON } from "@shared/schema";
 import { webPushService } from "./services/webPushService";
+import { setupWebSocketServer } from "./services/webSocketService";
 import multer from "multer";
 
 const upload = multer({ storage: multer.memoryStorage() });
@@ -27,6 +28,8 @@ function getCentroid(coordinates: number[][][]): [number, number] {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  const httpServer = createServer(app);
+  const webSocketServer = setupWebSocketServer(httpServer);
   app.get("/api/neighborhoods", async (req, res) => {
     try {
       const date = (req.query.date as string) || new Date().toISOString();
@@ -175,6 +178,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = insertCommunitySubmissionSchema.parse(req.body);
       const submission = await storage.addCommunitySubmission(validatedData);
+      
+      // Broadcast the new submission to all connected clients
+      webSocketServer.broadcastNewSubmission(submission);
+      
       res.json(submission);
     } catch (error) {
       console.error("Error creating community submission:", error);
@@ -239,8 +246,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Failed to send test notification" });
     }
   });
-
-  const httpServer = createServer(app);
 
   return httpServer;
 }
